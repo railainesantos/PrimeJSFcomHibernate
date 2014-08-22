@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+   <f:view  encoding="ISO-8859-1">
+       <h:head>
+              
+            <f:facet name="first">
+	            <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+	            <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" />
+                <title>AP - Agile Project </title>
+            </f:facet>
+
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+            <style type="text/css">
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                }
+            </style>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true" >
+        
+        
+                <p:layoutUnit id="north" position="north" size="150">
+		    				
+                </p:layoutUnit>
+        
+		          <p:layoutUnit  position="center" style="text-align: center;">
+					  <ui:insert name="centro">
+					
+					  </ui:insert>
+		           </p:layoutUnit>
+
+                <p:layoutUnit id="west" position="west" size="200">
+		    				
+                </p:layoutUnit>
+                
+                <p:layoutUnit id="east" position="east" size="200">
+		    				
+                </p:layoutUnit>
+                
+                <p:layoutUnit id="south" position="south" size="200">
+		    				
+                </p:layoutUnit>
+
+
+
+            </p:layout>
+
+            <p:dialog header="Basic Dialog" widgetVar="dlg1" modal="true">
+                <h:outputText value="Resistance to PrimeFaces is futile!" />
+            </p:dialog>
+
+
+
+        </h:body>
+
+    </f:view>
+</html>

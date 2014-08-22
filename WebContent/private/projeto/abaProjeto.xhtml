@@ -1,0 +1,85 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+<p:growl id="growlAltProjeto" showDetail="true" sticky="true" />          
+
+<h:panelGroup id="displayGerenciarProjeto"> 
+
+        <h:form acceptcharset="ISO-8859-1">
+        
+        <h:panelGrid columns="3" style="vertical-align:top"  >
+           
+           <h:outputLabel value="Nome"/>
+		   <p:inputText id="nome" value="#{projetoController.projeto.nome}" size="110"  disabled="true" />
+		   <p:message for="nome" />
+		  
+        
+		   <h:outputLabel value="Descrição" />
+		   <p:editor id="descricao" value="#{projetoController.projeto.descricao}" width="600" /> 
+		   <p:message for="descricao" />     
+
+
+	</h:panelGrid>		
+    <h:panelGrid columns="2">
+           <h:outputLabel value="Data Inicial"/>
+           <p:calendar locale="pt" showButtonPanel="true" validator="#{validator.validateBeginDate}" navigator="true" id="datainicialP"  value="#{projetoController.projeto.dataInicial}"  required="true" requiredMessage="Campo Data Incicial Obrigatorio" disabled="true"/>
+        
+        
+           <h:outputLabel value="Data Final"/>
+           <p:calendar locale="pt"  navigator="true"  id="datafinalP" value="#{projetoController.projeto.dataFinal}"  required="true" requiredMessage="Campo Data Final Obrigatorio" />
+  	
+  			<h:outputLabel value="Status"/>
+			<h:selectOneRadio id="status"   required="true" requiredMessage="Campo Status Obrigatorio" value="#{projetoController.projeto.status}">
+				<f:selectItem itemValue="Em planejamento" itemLabel="Em planejamento"/>   
+	  			<f:selectItem itemValue="Em execução" itemLabel="Em execução"/>
+	  			<f:selectItem itemValue="Finalizado" itemLabel="Finalizado"/>   
+	  			<f:selectItem itemValue="Cancelado" itemLabel="Cancelado"/>  
+			</h:selectOneRadio>
+  			
+
+            </h:panelGrid>
+
+          <h:panelGrid columns="3">
+		           <h:outputLabel value="Gerente"/>
+				   <p:inputText id="gerente"   required="true" requiredMessage="Campo Gerente Obrigatorio" value="#{projetoController.usuario.nome}" size="70" />
+                   <p:commandButton  value="Adicionar Usuario"  ajax="true" style="padding:4px;"   oncomplete="incluirGerenteDialog.show()" icon="ui-icon-plus" title="Adicionar" />
+	
+	</h:panelGrid>
+
+
+
+
+
+               <p:commandButton action="#{projetoController.alterarProjeto}" value="Salvar Projeto"  ajax="true" style="padding:6px;" icon="ui-icon-disk" update=":tabView:growlAltProjeto"/>
+             <br/>
+        </h:form>
+
+        </h:panelGroup>
+
+
+  <p:dialog header="Buscar Gerente" widgetVar="incluirGerenteDialog" resizable="false" id="incluirGerenteDialog"
+			                showEffect="fade" hideEffect="fade" modal="false" appendToBody="true">
+			<h:panelGroup id="panelListUsuariosResp" >
+			
+			    <p:dataTable id="usuarios" var="usuario"  value="#{projetoController.listarProjetos}" sortMode="multiple" rows="3" paginator="true">  
+					<f:facet name="header">  
+						Usuários
+					</f:facet>
+			
+			        <p:column headerText="Nome" >
+			            <h:outputText value="#{usuario.nome}" />
+			        </p:column>
+			
+					<p:column >
+					        <p:commandButton id="incluir" value="Incluir"   action="#{projetoController.prepararIncluirGerente}"  update=":tabView:displayGerenciarProjeto"   oncomplete="incluirGerenteDialog.hide()" icon="ui-icon-circle-check" title="Incluir" ajax="true"  />
+			        </p:column>
+			
+			    </p:dataTable>
+			   
+		  </h:panelGroup>
+	</p:dialog >
+</html>

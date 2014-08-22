@@ -1,0 +1,113 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:form id="formAbaEvento">
+		<p:growl id="growlAbaEvento" showDetail="true" sticky="true" />          
+
+</h:form>
+
+		  <h:panelGroup id="panelEvento">
+			    <p:dataTable id="eventos" var="evento" value="#{projetoController.listarEventos}" sortMode="multiple" rows="5" paginator="true">  
+						<f:facet name="header">  
+							Eventos do Projeto 
+						</f:facet>  
+				
+				        <p:column headerText="Nome" style="width:35%">
+				            <h:outputText value="#{evento.nome}" />
+				        </p:column>
+				
+		
+				        <p:column headerText="Data Final" style="width:25%">
+				            <h:outputText value="#{evento.dataEvento}" >  
+			                   <f:convertDateTime pattern="dd/MM/yyyy"/>  
+			    	        </h:outputText>  
+				        </p:column>
+		
+				        <p:column style="text-align: center; width: 5%;">
+				        		<f:facet name="header">
+		                    		<p:outputLabel value="Alterar"/>
+		                		</f:facet>
+		                		<h:form>
+				                	<p:commandButton id="alterar" action="#{projetoController.prepararAlterarEvento}"  update=":tabView:displayAltEvento,:tabView:panelAtividade,:tabView:panelListAtividade" oncomplete="altEventoDialog.show()" icon="ui-icon-circle-zoomout" title="Alterar" ajax="true"  />
+				        		</h:form>
+				        </p:column>
+				        
+				        <p:column style="text-align: center; width: 5%;">
+				        		<f:facet name="header">
+		                    		<p:outputLabel value="Excluir"/>
+		                		</f:facet>
+		                		<h:form>
+				                	<p:commandButton id="excluir" onclick="dialogConfirmRemoveEvento.show();" actionListener="#{projetoController.prepararExcluirEvento}"   update=":tabView:formAbaEvento:growlAbaEvento,:tabView:panelEvento"  icon="ui-icon-trash" title="Excluir" ajax="true" />
+				        		</h:form>
+				        </p:column>
+			    </p:dataTable>
+		   </h:panelGroup>
+		   
+		   <h:form>
+		     <p:commandButton actionListener="#{projetoController.prepararAdicionarEvento}" value="Adicionar Evento"  ajax="true" style="padding:6px;"  update=":tabView:displayCadEvento" oncomplete="cadEventoDialog.show()" icon="ui-icon-plus" title="Adicionar" />
+           </h:form>
+           
+   <p:dialog id="dialogConfirmRemoveEvento" widgetVar="dialogConfirmRemoveEvento" closable="true" resizable="false"> 
+        <h:panelGrid> 
+			<h:outputLabel value="Deseja realmente excluir este evento?">
+		</h:outputLabel>
+		</h:panelGrid>                  
+        <h:panelGrid columns="2">
+        
+	      	  <p:commandButton id="confirmEvento" value="Sim" onclick="dialogConfirmRemoveEvento.hide()"  
+	                    action="#{projetoController.excluirEvento}"  ajax="true" update=":tabView:formAbaEvento:growlAbaEvento,:tabView:panelEvento"/>  
+	        <p:commandButton id="declineEvento" value="Não" onclick="dialogConfirmRemoveEvento.hide()" type="button" />   
+		</h:panelGrid>                  
+    </p:dialog>
+           
+
+	<p:dialog header="Adicionar Evento" widgetVar="cadEventoDialog" resizable="false" id="cadEventoDialog"
+		                 hideEffect="fade" modal="false" appendToBody="false">
+		
+		  <h:panelGroup id="displayCadEvento" columns="2" cellpadding="4" style="margin:0 auto;">
+			 <h:form acceptcharset="ISO-8859-1">
+		        <h:panelGrid columns="2">
+		
+	           <h:outputLabel value="Nome"/>
+				   <p:inputText id="nome" value="#{projetoController.evento.nome}" size="120"   required="true" requiredMessage="Campo Nome Obrigatorio "/>
+		
+				   <h:outputLabel value="Descrição" />
+				   <p:editor id="descricao" value="#{projetoController.projeto.descricao}" width="600" /> 
+
+		           <h:outputLabel value="Data Evento"/>
+		           <p:calendar locale="pt"  showButtonPanel="true" navigator="true" id="dataeventoA" value="#{projetoController.evento.dataEvento}"  required="true" requiredMessage="Campo Data Evento Obrigatorio"/>
+		  
+		          </h:panelGrid>
+		                <p:commandButton id="salvar" value="Salvar" actionListener="#{projetoController.adicionarEvento}"   update=":tabView:formAbaEvento:growlAbaEvento,:tabView:panelEvento"  icon="ui-icon-disk" title="Salvar" oncomplete="cadEventoDialog.hide()" ajax="true"/>
+		             <br/>
+		        </h:form>
+        </h:panelGroup>
+    </p:dialog >
+
+    <p:dialog header="Alterar Evento " widgetVar="altEventoDialog" resizable="false" id="altEventoDialog"
+		                 hideEffect="fade" modal="false" appendToBody="false">
+		  <h:panelGroup id="displayAltEvento" >
+			 <h:form acceptcharset="ISO-8859-1">
+		        <h:panelGrid columns="2">
+		
+		           <h:outputLabel value="Nome"/>
+				   <p:inputText id="nome" value="#{projetoController.evento.nome}" size="120"  disabled="true"  />
+
+				   <h:outputLabel value="Descrição" />
+				   <p:editor id="descricao" value="#{projetoController.projeto.descricao}" width="600" /> 
+		        
+		           <h:outputLabel value="Data Evento"/>
+		           <p:calendar locale="pt"  showButtonPanel="true" navigator="true" id="dataeventoA" value="#{projetoController.evento.dataEvento}"  required="true" requiredMessage="Campo Data Evento Obrigatorio"/>
+		  
+		          </h:panelGrid>
+		          		 <p:commandButton id="salvar"  value="Salvar" actionListener="#{projetoController.alterarEvento}"   update=":tabView:formAbaEvento:growlAbaEvento,:tabView:panelEvento,:tabView:panelAtividade,:tabView:panelEvento"  icon="ui-icon-disk" title="Salvar"  oncomplete="altEventoDialog.hide()" />
+		             <br/>
+		        </h:form>
+        </h:panelGroup>
+        
+</p:dialog>
+
+</html>

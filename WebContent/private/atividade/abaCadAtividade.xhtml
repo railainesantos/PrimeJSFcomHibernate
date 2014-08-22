@@ -1,0 +1,187 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+      
+<h:form id="formAbaCadAtividade">
+		<p:growl id="growlAbaCadAtividade" showDetail="true" sticky="true" />          
+
+</h:form>
+      
+
+		<h:panelGroup id="panelCadAtividade">
+		
+		    <p:dataTable id="atividadesCad" var="atividade" value="#{projetoController.listarAtividadesTab}" sortMode="multiple" rows="5" paginator="true">  
+				<f:facet name="header">  
+					Atividades sem Milestone
+				</f:facet>
+		
+		        <p:column headerText="Nome" style="width:45%">
+		            <h:outputText value="#{atividade.nome}" />
+		        </p:column>
+		
+		
+		        <p:column headerText="Data Inicial" style="width:15%">
+	            <h:outputText value="#{atividade.dataInicial}" >  
+                   <f:convertDateTime pattern="dd/MM/yyyy"/>  
+    	        </h:outputText>  
+		        </p:column>
+
+		        <p:column headerText="Data Final" style="width:15%">
+	            <h:outputText value="#{atividade.dataFinal}" >  
+                   <f:convertDateTime pattern="dd/MM/yyyy"/>  
+    	        </h:outputText>  
+		        </p:column>
+
+		        <p:column headerText="Status" style="width:15%">
+		            <h:outputText value="#{atividade.status}" />
+		        </p:column>
+		
+		        <p:column style="text-align: center; width:5%;">
+		        		<f:facet name="header">
+                    		<p:outputLabel value="Alterar"/>
+                		</f:facet>
+		        		<h:form>
+		                	<p:commandButton id="alterar" action="#{projetoController.prepararAlterarAtividade}"  update=":tabView:displayAltCadAtividade " oncomplete="altCadAtividadeDialog.show()" icon="ui-icon-circle-zoomout" title="Alterar" ajax="true"  />
+		        		</h:form>
+		        </p:column>
+
+		        <p:column style="text-align: center; width:5%;">
+		        		<f:facet name="header">
+                    		<p:outputLabel value="Excluir"/>
+                		</f:facet>
+		                <h:form>
+					                <p:commandButton id="excluir" onclick="dialogConfirmRemoveAtividade.show();" actionListener="#{projetoController.prepararExcluirAtividade}"  update=":tabView:formAbaCadAtividade:growlAbaCadAtividade,:tabView:panelCadAtividade"  icon="ui-icon-trash" title="Excluir" ajax="true"  />
+						</h:form>	        
+		        </p:column>
+		    </p:dataTable>
+	  </h:panelGroup>
+		    <h:form>
+            <p:commandButton actionListener="#{projetoController.prepararAdicionarAtividade}" value="Adicionar Atividade"  ajax="true" style="padding:6px;"  update=":tabView:displayCadCadAtividade" oncomplete="cadCadAtividadeDialog.show()" icon="ui-icon-plus" title="Adicionar" />
+             </h:form>
+             
+ <p:dialog id="dialogConfirmRemoveAtividade" widgetVar="dialogConfirmRemoveAtividade" closable="true" resizable="false"> 
+        <h:panelGrid> 
+			<h:outputLabel value="Deseja realmente excluir esta atividade?">
+		</h:outputLabel>
+		</h:panelGrid>                  
+        <h:panelGrid columns="2">
+        
+	      	  <p:commandButton id="confirmAtividade" value="Sim" onclick="dialogConfirmRemoveAtividade.hide()"  
+	                    action="#{projetoController.excluirAtividade}"  ajax="true" update=":tabView:formAbaCadAtividade:growlAbaCadAtividade,:tabView:panelCadAtividade"/>  
+	        <p:commandButton id="declineAtividade" value="Não" onclick="dialogConfirmRemoveAtividade.hide()" type="button" />   
+		</h:panelGrid>                  
+    </p:dialog>
+             
+
+		 <p:dialog header="Adicionar Atividade" widgetVar="cadCadAtividadeDialog" resizable="false" id="cadCadAtividadeDialog"
+		                showEffect="fade" hideEffect="fade" modal="false" appendToBody="false">
+		
+		  <h:panelGroup id="displayCadCadAtividade" >
+			 <h:form acceptcharset="ISO-8859-1">
+		        <h:panelGrid columns="2">
+		
+		           <h:outputLabel value="Nome"/>
+				   <p:inputText id="nome" value="#{projetoController.atividade.nome}" size="120"   required="true" requiredMessage="Campo Nome Obrigatorio "/>
+		
+		           <h:outputLabel value="Data Inicial"/>
+		           <p:calendar locale="pt" validator="#{validator.validateBeginDate}" showButtonPanel="true" navigator="true" id="datainicialA"  value="#{projetoController.atividade.dataInicial}" required="true" requiredMessage="Campo  Data Inicial Obrigatorio" />
+		        
+		           <h:outputLabel value="Data Final"/>
+		           <p:calendar locale="pt" validator="#{validator.validateEndDate}" showButtonPanel="true" navigator="true" id="datafinalA" value="#{projetoController.atividade.dataFinal}"  required="true" requiredMessage="Campo Data Final Obrigatorio"/>
+
+				</h:panelGrid>
+		        <h:panelGrid columns="3">
+		           <h:outputLabel value="Responsável"/>
+				   <p:inputText id="responsavel"   required="true" requiredMessage="Campo Responsavel Obrigatorio" value="#{projetoController.atividade.usuario.nome}" size="120" />
+    
+                 	<h:form>
+                   <p:commandButton  value="Adicionar Responsavel"  ajax="true" style="padding:6px;"   oncomplete="incluirResponsavelDialogTab.show()" icon="ui-icon-plus" title="Adicionar" />
+				   </h:form>
+				    <h:outputLabel value="Status"/>
+	
+					<h:selectOneRadio id="status"  required="true" requiredMessage="Campo Status Obrigatorio" value="#{projetoController.atividade.status}">
+						<f:selectItem itemValue="Em definição" itemLabel="Em definição"/>   
+					</h:selectOneRadio>
+				   
+		  
+		          </h:panelGrid>     
+		          	                  
+		                <p:commandButton id="salvar"  value="Salvar" actionListener="#{projetoController.adicionarAtividadeTab}"   update=":tabView:formAbaCadAtividade:growlAbaCadAtividade,:tabView:panelCadAtividade"  icon="ui-icon-disk" title="Salvar" ajax="true" oncomplete="cadCadAtividadeDialog.hide()" />
+		             <br/>
+		        </h:form>
+        </h:panelGroup>
+    </p:dialog >
+
+
+	<p:dialog header="Buscar Responsavel" widgetVar="incluirResponsavelDialogTab" resizable="false" id="incluirResponsavelDialogTab"
+			                showEffect="fade" hideEffect="fade" modal="false" appendToBody="false">
+			<h:panelGroup id="panelListUsuariosTab" >
+			
+			    <p:dataTable id="usuarioTab" var="usuarioTab"  value="#{projetoController.listarMembrosProjeto}" sortMode="multiple" rows="3" paginator="true">  
+					<f:facet name="header">  
+						Usuários
+					</f:facet>
+			
+			        <p:column headerText="Nome" >
+			            <h:outputText value="#{usuarioTab.nome}" />
+			        </p:column>
+			
+			        <p:column headerText="Tipo Usuario" >
+			            <h:outputText value="#{usuarioTab.tipoUsuario}" />
+			        </p:column>
+
+					<p:column >
+					        <p:commandButton id="incluir" value="Incluir" actionListener="#{projetoController.prepararIncluirResponsavel}"    update=":tabView:displayCadCadAtividade,:tabView:displayAltCadAtividade"   oncomplete="incluirResponsavelDialogTab.hide()" icon="ui-icon-circle-check" title="Incluir" ajax="true"  />
+			        </p:column>
+			
+			    </p:dataTable>
+			   
+		  </h:panelGroup>
+	</p:dialog >
+
+
+     <p:dialog header="Alterar Atividade " widgetVar="altCadAtividadeDialog" resizable="false" id="altCadAtividadeDialog"
+		                showEffect="fade" hideEffect="fade" modal="false" appendToBody="false">
+		                
+		
+		  <h:panelGroup id="displayAltCadAtividade" >
+			 <h:form acceptcharset="ISO-8859-1">
+		        <h:panelGrid columns="2">
+		
+		           <h:outputLabel value="Nome"/>
+				   <p:inputText id="nome" value="#{projetoController.atividade.nome}" size="120"  disabled="true"  />
+		
+		           <h:outputLabel value="Data Inicial"/>
+		           <p:calendar locale="pt" showButtonPanel="true" navigator="true" id="datainicialA"  value="#{projetoController.atividade.dataInicial}" disabled="true" />
+		        
+		           <h:outputLabel value="Data Final"/>
+		           <p:calendar locale="pt"  showButtonPanel="true" navigator="true" id="datafinalA" value="#{projetoController.atividade.dataFinal}"  required="true" requiredMessage="Campo Data Final Obrigatorio"/>
+				   
+				 </h:panelGrid>
+		         <h:panelGrid columns="3">
+		           <h:outputLabel value="Responsável"/>
+				   <p:inputText id="responsavel" value="#{projetoController.atividade.usuario.nome}" size="120"   required="true" requiredMessage="Campo Responsavel Obrigatorio"/>
+                   <p:commandButton  value="Adicionar Responsavel"  ajax="true" style="padding:6px;"   oncomplete="incluirResponsavelDialogTab.show()"   icon="ui-icon-plus" title="Adicionar" />
+
+				    <h:outputLabel value="Status"  />
+					<h:selectOneRadio id="status" required="true" requiredMessage="Campo Status Obrigatorio"  value="#{projetoController.atividade.status}">
+						<f:selectItem itemValue="Em definição" itemLabel="Em definição"/>   
+			   			<f:selectItem itemValue="Iniciada" itemLabel="Iniciada"/>
+			   			<f:selectItem itemValue="Finalizada" itemLabel="Finalizada"/>   
+			   			<f:selectItem itemValue="Pendente" itemLabel="Pendente"/>  
+					</h:selectOneRadio>
+				   
+		          </h:panelGrid>
+		          		          	                  
+		                <p:commandButton id="salvar"  value="Salvar" actionListener="#{projetoController.alterarAtividadeTab}"   update=":tabView:formAbaCadAtividade:growlAbaCadAtividade,:tabView:panelCadAtividade"  icon="ui-icon-disk" title="Salvar" ajax="true" oncomplete="altCadAtividadeDialog.hide()" />
+		             <br/>
+		        </h:form>
+		        
+        </h:panelGroup>
+	</p:dialog>
+	
+</html>
+

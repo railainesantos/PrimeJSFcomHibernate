@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:decorate template="/private/template/padraoPrivate.xhtml">
+        <ui:define name="centro">
+        
+        <p:growl id="growl" showDetail="true" sticky="true" />          
+        
+        <h1>Gerenciador de Usuarios</h1>
+        <h:form id="formAltUsuario">
+        <h:panelGrid columns="2" id="panelUsuario">
+        
+           <h:outputLabel value="Codigo"/>
+		   <p:inputText id="idusuario" value="#{projetoController.usuario.idUsuario}"  disabled="true" size="20"  />
+
+           <h:outputLabel value="Nome"/>
+		   <p:inputText id="nome" value="#{projetoController.usuario.nome}" size="50" style="width: 300px;"  required="true" requiredMessage="Campo Nome Obrigatório"/>
+
+           <h:outputLabel value="Categoria do Usuário"/>
+         	<p:selectOneMenu id="tipoUsuario" value="#{projetoController.usuario.tipoUsuario}" required="true" requiredMessage="Campo Tipo Usuario Obrigatório"> 
+                 <f:selectItem itemLabel="Selecione" itemValue="" />
+                 <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+                 <f:selectItem itemLabel="Consulta" itemValue="Consulta" />
+            </p:selectOneMenu>
+
+           <h:outputLabel value="Login"/>
+		   <p:inputText id="login" style="width: 602px;" value="#{projetoController.usuario.login}" size="90"  required="true" validatorMessage="Digite um e-mail valido"  autocomplete="false"  requiredMessage="Campo Login Obrigatorio" >
+			   <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="Digite um e-mail valido"  />
+		   </p:inputText>
+
+           <h:outputLabel value="Senha"/>
+		   <p:password id="senha" value="#{projetoController.usuario.senha}"  validatorMessage="Digite no minimo 6 caracteres" size="20" style="width: 300px;"  required="true" requiredMessage="Campo Senha Obrigatório" >
+			   <f:validateLength minimum="6" >
+			   </f:validateLength>
+			   
+			</p:password   >
+
+
+           <h:outputLabel value="Pergunta Secreta"/>
+         	<p:selectOneMenu id="perguntaSecreta" value="#{projetoController.usuario.perguntaSecreta}" required="true" requiredMessage="Campo Pergunta Secreta Obrigatório"> 
+                 <f:selectItem itemLabel="Selecione" itemValue="" />
+                 <f:selectItem itemLabel="Nome da Mãe" itemValue="Nome da Mãe" />
+                 <f:selectItem itemLabel="Comida Favorita" itemValue="Comida Favorita" />
+                 <f:selectItem itemLabel="Time Favorito" itemValue="Time Favorito" />
+                 <f:selectItem itemLabel="Melhor Amigo" itemValue="Melhor Amigo" />
+                 <f:selectItem itemLabel="Data de Nascimento" itemValue="Data de Nascimento" />
+            </p:selectOneMenu>
+
+           <h:outputLabel value="Resposta Secreta"/>
+		   <p:password id="respostaSecreta" value="#{projetoController.usuario.respostaSecreta}" size="50" style="width: 300px;"  required="true" requiredMessage="Campo Resposta Secreta Obrigatório"/>
+	        
+           	</h:panelGrid>
+   			<h:form>
+	           <p:commandButton action="#{projetoController.alterarUsuario}" value="Salvar" style="padding:6px;" update=":growl,:formAltUsuario:panelUsuario" />
+           	</h:form>
+          	<br/>
+		              
+	    </h:form>  
+        
+        </ui:define>
+    </ui:decorate>
+    
+</html>

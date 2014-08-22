@@ -1,0 +1,47 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+         <ui:decorate template="/private/template/padraoLogin.xhtml">
+        <ui:define name="centro">
+
+		<h1><h:outputText id="recuperaSenha" value="Recuperação de Senha"/></h1>
+        <h:form acceptcharset="ISO-8859-1" id="formRecuperaSenha">
+       	   <h:panelGrid columns="2" id="panelRecuperaSenha" >
+
+
+           <h:outputLabel value="Login"/>
+		   <p:inputText id="login" value="#{projetoController.usuario.login}" size="50" style="width: 300px;"  required="true" requiredMessage="Campo Login Obrigatório"/>
+
+           <h:outputLabel value="Pergunta Secreta"/>
+         	<p:selectOneMenu id="perguntaSecreta" value="#{projetoController.usuario.perguntaSecreta}" required="true" requiredMessage="Campo Pergunta Secreta Obrigatório"> 
+                 <f:selectItem itemLabel="Selecione" itemValue="" />
+                 <f:selectItem itemLabel="Nome da Mãe" itemValue="Nome da Mãe" />
+                 <f:selectItem itemLabel="Comida Favorita" itemValue="Comida Favorita" />
+                 <f:selectItem itemLabel="Time Favorito" itemValue="Time Favorito" />
+                 <f:selectItem itemLabel="Melhor Amigo" itemValue="Melhor Amigo" />
+                 <f:selectItem itemLabel="Data de Nascimento" itemValue="Data de Nascimento" />
+            </p:selectOneMenu>
+
+           <h:outputLabel value="Resposta Secreta"/>
+		   <p:password id="respostaSecreta" value="#{projetoController.usuario.respostaSecreta}" size="50" style="width: 300px;"  required="true" requiredMessage="Campo Resposta Secreta Obrigatório"/>
+	 
+           	</h:panelGrid>
+	 <p:messages id="msgErro" showDetail="true" autoUpdate="true" closable="true" />     
+   		<h:form>
+	           <p:commandButton actionListener="#{projetoController.recuperaSenha}" value="Enviar" style="padding:6px;" update=":formRecuperaSenha:panelRecuperaSenha" />
+           	</h:form>
+
+		</h:form>        
+		
+		<h:form>
+	           <p:commandLink action="#{projetoController.doEfetuarLogof}" value="Voltar" style="padding:6px;" update=":formRecuperaSenha:panelRecuperaSenha" ajax="false"/>
+		</h:form>
+        </ui:define>
+
+
+      </ui:decorate>
+  	
+</html>

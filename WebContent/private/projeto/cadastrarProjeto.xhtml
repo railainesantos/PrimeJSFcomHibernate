@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:decorate template="/private/template/padraoPrivate.xhtml">
+  	
+        <ui:define name="centro">
+        <h1>Gerenciador de Projetos</h1>
+        
+	    <p:messages id="growl" showDetail="true" autoUpdate="true" closable="true" />          
+    
+        <h:form acceptcharset="ISO-8859-1" id="formProjeto" >
+       	   <h:panelGrid columns="2" id="panelProjeto" >
+
+           <h:outputLabel value="Nome"/>
+		   <p:inputText id="nome" style="width: 602px;" value="#{projetoController.projeto.nome}" size="110"   required="true" requiredMessage="Campo Nome Obrigatorio"/>
+        
+		   <h:outputLabel value="Descrição" />
+		   <p:editor id="descricao" value="#{projetoController.projeto.descricao}" width="600" /> 
+
+           <h:outputLabel value="Data Inicial"/>
+           <p:calendar locale="pt" showButtonPanel="true"  validator="#{validator.validateBeginDate}" navigator="true" id="datainicialP"  value="#{projetoController.projeto.dataInicial}"  required="true" requiredMessage="Campo Data Incicial Obrigatorio" />
+        
+        
+           <h:outputLabel value="Data Final"/>
+           <p:calendar locale="pt" showButtonPanel="true" validator="#{validator.validateEndDate}" navigator="true" id="datafinalP" value="#{projetoController.projeto.dataFinal}"   required="true" requiredMessage="Campo Data Final Obrigatorio" />
+  	
+ 			<h:outputLabel value="Status"/>
+			<h:selectOneRadio id="status"  required="true" requiredMessage="Campo Status Obrigatorio" value="#{projetoController.projeto.status}">
+				<f:selectItem itemValue="Em planejamento" itemLabel="Em planejamento"/>   
+			</h:selectOneRadio>
+	 
+           	</h:panelGrid>
+   			<h:form>
+	           <p:commandButton action="#{projetoController.adicionarProjeto}" value="Salvar" style="padding:6px;"   update=":growl,:formProjeto:panelProjeto"  ajax="true"/>
+           	</h:form>
+          	<br/>
+		              
+	    </h:form>  
+        
+        </ui:define>
+    </ui:decorate>
+    
+</html>

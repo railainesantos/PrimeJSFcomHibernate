@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+         <ui:decorate template="/private/template/padraoLogin.xhtml">
+        <ui:define name="centro">
+        <h:form acceptcharset="ISO-8859-1">
+        	
+			      <h1><h:outputText id="bemVindo" value="Bem vindo(a) ao Agile Project."/></h1>
+			        <h:panelGrid id="gridLoginSenha" columns="2"  style="text-align:  left; margin-left: auto; margin-right: auto; ">
+			        
+			        
+			                   <h:outputLabel value="Login: "/>
+							   <p:inputText id="login" style="width: 602px;" value="#{projetoController.usuario.login}" size="90"  required="true" validatorMessage="Digite um e-mail valido"  autocomplete="false"  requiredMessage="Campo Login Obrigatorio" >
+							   <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="Digite um e-mail valido"  />
+ 							   </p:inputText>
+							   
+							   <h:outputLabel value="Senha: "/>
+							   <p:password id="senha" style="width: 602px;" value="#{projetoController.usuario.senha}" size="90"  required="true" requiredMessage="Campo Senha Obrigatorio"/>
+
+			        </h:panelGrid>
+	
+			    <p:messages id="msgErro" showDetail="true" autoUpdate="true" closable="true" />          
+
+			        
+			        <br>
+			        </br>	
+			        <h:form>
+				           <p:commandButton action="#{projetoController.doEfetuarLogin}"    ajax="false"    value="Entrar" style="padding:6px;" />
+			        </h:form>
+
+		</h:form>        
+			        
+			        <h:form>
+				           <p:commandLink action="#{projetoController.preparaRecuperarSenha}"    ajax="false"    value="Esqueci minha senha" style="padding:6px;" />
+			        </h:form>
+
+
+        </ui:define>
+
+
+      </ui:decorate>
+  	
+</html>

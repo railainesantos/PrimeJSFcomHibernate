@@ -1,0 +1,105 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:decorate template="/private/template/padraoPrivate.xhtml">
+        <ui:define name="centro">
+		
+		<p:growl id="growlConProjeto" showDetail="true" sticky="true" />          
+		
+		<h:form>
+		
+	       <h:panelGroup id="panelConProjeto">
+		          <h1>Gerenciador de Projetos</h1>
+			         <p:dataTable id="projeto" var="projeto" value="#{projetoController.listarProjetosUsuario}" sortMode="multiple" rows="5"
+			          paginator="true" filteredValue="#{projetoController.filteredProjetos}" >  
+							
+						   <f:facet name="header">  
+					            <p:outputPanel>  
+					                <h:outputText value="Search all fields:" />  
+					                <p:inputText id="globalFilter" onkeyup="projeto.filter()" style="width:150px" />  
+					            </p:outputPanel>  
+					        </f:facet>  
+			            
+			            <p:column>
+			                <f:facet name="header">
+			                    <p:outputLabel value="Nome"/>
+			                </f:facet>
+			                <p:outputLabel value="#{projeto.nome}"/>
+			            </p:column>
+			            
+			            <p:column>
+			                <f:facet name="header">
+			                    <p:outputLabel value="Data Inicial"/>
+			                </f:facet>
+				            <h:outputText value="#{projeto.dataInicial}" >  
+			                   <f:convertDateTime pattern="dd/MM/yyyy"/>  
+			    	        </h:outputText>  
+			            </p:column>
+			
+			            <p:column >
+			                <f:facet name="header">
+			                    <p:outputLabel value="Data Final"/>
+			                </f:facet>
+				            <h:outputText value="#{projeto.dataFinal}" >  
+			                   <f:convertDateTime pattern="dd/MM/yyyy"/>  
+			    	        </h:outputText>  
+			            </p:column>
+			
+			            <p:column>
+			                <f:facet name="header">
+			                    <p:outputLabel value="Status"/>
+			                </f:facet>
+			                <p:outputLabel value="#{projeto.status}"/>
+			            </p:column>
+			
+			          
+			            <p:column style="text-align: center;">
+			                <f:facet name="header">
+			                    <p:outputLabel value="Alterar"/>
+			                </f:facet>
+			                	<p:commandButton  action="#{projetoController.prepararAlterarProjeto}" icon="ui-icon-circle-zoomout" ajax="false"/>
+			            </p:column>
+			            
+			            <p:column style="text-align: center;">
+			                <f:facet name="header">
+			                    <p:outputLabel value="Excluir"/>
+			                </f:facet>
+			                    <p:commandButton actionListener="#{projetoController.prepararExcluirProjeto}"  onclick="dialogConfirmRemoveProjeto.show();" icon="ui-icon-trash" ajax="true" />
+			            </p:column>
+			        </p:dataTable>
+	       </h:panelGroup>       
+	        <br/>
+
+
+       <p:dialog id="dialogConfirmRemoveProjeto" widgetVar="dialogConfirmRemoveProjeto" closable="true" resizable="false"> 
+        <h:panelGrid> 
+			<h:outputLabel value="Deseja realmente excluir este projeto?">
+		</h:outputLabel>
+		</h:panelGrid>                  
+        <h:panelGrid columns="2">
+        
+	      	  <p:commandButton id="confirmProjeto" value="Sim" onclick="dialogConfirmRemoveProjeto.hide()"  
+	                    action="#{projetoController.excluirProjeto}"  ajax="true" update=":growlConProjeto,panelConProjeto"/>  
+	        <p:commandButton id="declineProjeto" value="Não" onclick="dialogConfirmRemoveProjeto.hide()" type="button" />   
+		</h:panelGrid>                  
+    </p:dialog>
+
+
+		 </h:form>
+
+		        <h:form>
+		             <p:commandButton action="#{projetoController.prepararAdicionarProjeto}"  value="Novo Projeto"  icon="ui-icon-plus" ajax="false" style="padding:6px;" />
+		        </h:form>
+
+
+      
+
+        </ui:define>
+    </ui:decorate>
+    
+    
+
+</html>

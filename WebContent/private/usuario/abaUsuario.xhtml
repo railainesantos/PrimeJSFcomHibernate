@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+      
+      
+<h:form id="formAbaMembros">
+		<p:growl id="growlAbaMembros" showDetail="true" sticky="true" />          
+
+</h:form>
+        
+        <h:panelGroup id="panelMembros">
+		<p:dataTable  var="membro" value="#{projetoController.listarMembrosProjeto}" sortMode="multiple" rows="3" paginator="true">  
+		<f:facet name="header">  
+					Membros do Projeto 
+				</f:facet>
+            <p:column>
+                <f:facet name="header">
+                    <p:outputLabel value="Código"/>
+                </f:facet>
+                <p:outputLabel value="#{membro.idUsuario}" />
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <p:outputLabel value="Membro"/>
+                </f:facet>
+                <p:outputLabel value="#{membro.nome}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <p:outputLabel value="Categoria do Membro"/>
+                </f:facet>
+                <p:outputLabel value="#{membro.tipoUsuario}"/>
+            </p:column>
+            
+        </p:dataTable>
+        <br/>
+        <h:form>
+                   <p:commandButton  value="Adicionar Membro"  ajax="true" style="padding:6px;"   oncomplete="incluirMembroDialog.show()" icon="ui-icon-plus" title="Adicionar" />
+        </h:form>
+        
+		</h:panelGroup>
+
+
+
+	<p:dialog header="Buscar Usuário" widgetVar="incluirMembroDialog" resizable="false" id="incluirMembroDialog"
+			                showEffect="fade" hideEffect="fade" modal="false" appendToBody="false">
+			<h:panelGroup id="panelListUsuariosCad" >
+			
+		    <p:dataTable id="membro" var="membro"  value="#{projetoController.listarUsuariosForaProjeto}" sortMode="multiple" rows="3" paginator="true">  
+				<f:facet name="header">  
+					Usuarios 
+				</f:facet>
+		
+		        <p:column headerText="Nome" style="width:40%">
+		            <h:outputText value="#{membro.nome}" />
+		        </p:column>
+		
+
+		        <p:column headerText="Status" style="width:15%">
+		            <h:outputText value="#{membro.tipoUsuario}" />
+		        </p:column>
+		
+		        <p:column style="width:10%; text-align: center;">
+						 <f:facet name="header">
+                    		<p:outputLabel value="Adicionar"/>
+                		</f:facet>
+
+                		<h:form> 
+		                	<p:commandButton id="incluir"  action="#{projetoController.prepararIncluirMembroProjeto}"  update=":tabView:panelMembros,:tabView:formAbaMembros:growlAbaMembros"   oncomplete="incluirMembroDialog.hide()" icon="ui-icon-circle-check" title="Incluir" ajax="true"  />
+		        		</h:form>	
+		        </p:column>
+		    </p:dataTable>			   
+		  </h:panelGroup>
+	</p:dialog >
+	
+	
+</html>

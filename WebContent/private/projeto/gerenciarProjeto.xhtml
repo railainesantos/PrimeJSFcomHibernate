@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+<h:form id="formTavView">
+		<p:growl id="growlTabView" showDetail="true" sticky="true" />          
+
+</h:form>
+      
+   
+    <ui:decorate template="/private/template/padraoPrivate.xhtml">
+        <ui:define name="centro">
+        
+        <p:panel id="panel" header="#{projetoController.projeto.nome}" style="margin-bottom:10px; font-size: 16px;">
+
+        <p:tabView id="tabView">
+		<p:tab id="projeto" title="Projeto">
+			<ui:include src="abaProjeto.xhtml">	</ui:include>  
+		</p:tab>
+			
+		<p:tab id="milestone" title="Milestone">
+			<ui:include src="/private/milestone/abaMilestone.xhtml">	</ui:include>  
+		</p:tab>
+
+		<p:tab id="atividade" title="Atividades">
+			<ui:include src="/private/atividade/abaCadAtividade.xhtml">	</ui:include>  
+		</p:tab>
+
+		<p:tab id="membros" title="Membros">
+			<ui:include src="/private/usuario/abaUsuario.xhtml">	</ui:include>          
+		</p:tab>
+
+		<p:tab id="evento" title="Eventos">
+			<ui:include src="/private/evento/abaCadEvento.xhtml">	</ui:include>  
+		</p:tab>
+
+		<p:tab id="log" title="Logs">
+			<ui:include src="/private/log/log.xhtml">	</ui:include>  
+		</p:tab>
+
+
+			</p:tabView>
+			</p:panel>
+	    
+            </ui:define>
+    </ui:decorate>
+</html>

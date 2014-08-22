@@ -1,0 +1,94 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:decorate template="/private/template/padraoPrivate.xhtml">
+        <ui:define name="centro">
+		
+		<p:growl id="growlConUsuario" showDetail="true" sticky="true" />          
+		
+
+		<h:form id="formConUsuario">
+		
+	       <h:panelGroup id="panelConUsuario">
+		          <h1>Gerenciador de Usuarios</h1>
+         <p:dataTable var="usuario" value="#{projetoController.listarUsuarios}" sortMode="multiple" rows="10" paginator="true">  
+				<f:facet name="header">  
+					Usuarios Cadastrados no Sistema
+				</f:facet>
+            <p:column>
+                <f:facet name="header">
+                    <p:outputLabel value="Código"/>
+                </f:facet>
+                <p:outputLabel value="#{usuario.idUsuario}" />
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <p:outputLabel value="Usuário"/>
+                </f:facet>
+                <p:outputLabel value="#{usuario.nome}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <p:outputLabel value="Categoria do Usuário"/>
+                </f:facet>
+                <p:outputLabel value="#{usuario.tipoUsuario}"/>
+            </p:column>
+			
+			          
+			            <p:column style="text-align: center;">
+			                <f:facet name="header">
+			                    <p:outputLabel value="Desbloquear"/>
+			                </f:facet>
+			                	<p:commandButton  action="#{projetoController.desbloquearUsuario}" icon="ui-icon-check"  ajax="true" update=":growlConUsuario,:formConUsuario:panelConUsuario"/>
+			            </p:column>	
+			            
+			            <p:column style="text-align: center;">
+			                <f:facet name="header">
+			                    <p:outputLabel value="Alterar"/>
+			                </f:facet>
+			                	<p:commandButton  action="#{projetoController.prepararAlterarUsuario}" icon="ui-icon-circle-zoomout" ajax="false"/>
+			            </p:column>
+			            
+			            <p:column style="text-align: center;">
+			                <f:facet name="header">
+			                    <p:outputLabel value="Excluir"/>
+			                </f:facet>
+			                    <p:commandButton action="#{projetoController.prepararExcluirUsuario}"  onclick="dialogConfirmRemove.show();" icon="ui-icon-trash" ajax="true" />
+			            </p:column>
+			        </p:dataTable>
+	       </h:panelGroup>       
+	        <br/>
+
+
+       <p:dialog id="dialogConfirmRemove" widgetVar="dialogConfirmRemove" closable="true" resizable="false"> 
+        <h:panelGrid> 
+			<h:outputLabel value="Deseja realmente excluir este usuario">
+		</h:outputLabel>
+		</h:panelGrid>                  
+        <h:panelGrid columns="2">
+        
+	      	  <p:commandButton id="confirm" value="Sim" onclick="dialogConfirmRemove.hide()"  
+	                    action="#{projetoController.excluirUsuario}"  ajax="true" update=":growlConUsuario,:formConUsuario:panelConUsuario"/>  
+	        <p:commandButton id="decline" value="Não" onclick="dialogConfirmRemove.hide()" type="button" />   
+		</h:panelGrid>                  
+    </p:dialog>
+
+
+		 </h:form>
+
+		        <h:form>
+		             <p:commandButton action="#{projetoController.prepararAdicionarUsuario}"  value="Novo Usuario"  icon="ui-icon-plus" ajax="false" style="padding:6px;" />
+		        </h:form>
+
+
+      
+
+        </ui:define>
+    </ui:decorate>
+    
+    
+
+</html>

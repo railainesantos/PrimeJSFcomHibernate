@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<!-- Configurações da conexão -->
+		<property name="connection.driver_class">org.postgresql.Driver</property>
+		<property name="connection.url">jdbc:postgresql://localhost:5432/banco</property>
+		<property name="connection.username">postgres</property>
+		<property name="connection.password">postgres</property>
+
+		<!-- Impressão do SQL na saída padrão -->
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+
+		<!-- Dialeto utilizado -->
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hbm2ddl.auto">update</property>
+
+		<!-- Classes anotadas -->
+		<mapping class="Model.Projeto" />
+		<mapping class="Model.Atividade" />
+		<mapping class="Model.Usuario" />
+		<mapping class="Model.MembrosProjeto" />
+		<mapping class="Model.Milestone" />
+		<mapping class="Model.Evento" />
+		<mapping class="Model.Log" />
+
+	</session-factory>
+</hibernate-configuration>

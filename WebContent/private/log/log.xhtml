@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:form id="formAbaLog">
+		<p:growl id="growlAbaLog" showDetail="true" sticky="true" />          
+
+</h:form>
+
+		  <h:panelGroup id="panelLog">
+			    <p:dataTable id="logs" var="log" value="#{projetoController.listarLogs}" sortMode="multiple" rows="5" paginator="true">  
+						<f:facet name="header">  
+							Logs do Projeto 
+						</f:facet>  
+				
+	            <p:column>
+	                <f:facet name="header">
+	                    <p:outputLabel value="Usuario"/>
+	                </f:facet>
+	                <p:outputLabel value="#{log.usuario}"/>
+	            </p:column>
+	            
+	            <p:column>
+	                <f:facet name="header">
+	                    <p:outputLabel value="Ação"/>
+	                </f:facet>
+	                <p:outputLabel value="#{log.acao}"/>
+	            </p:column>
+
+	            <p:column>
+	                <f:facet name="header">
+	                    <p:outputLabel value="Registro"/>
+	                </f:facet>
+	                <p:outputLabel value="#{log.dadoTabela}"/>
+	            </p:column>
+
+	            <p:column>
+	                <f:facet name="header">
+	                    <p:outputLabel value="Tabela"/>
+	                </f:facet>
+	                <p:outputLabel value="#{log.tabela}"/>
+	            </p:column>
+
+
+	            <p:column>
+	                <f:facet name="header">
+	                    <p:outputLabel value="Data "/>
+	                </f:facet>
+		            <h:outputText value="#{log.dataRegistro}" >  
+	                   <f:convertDateTime pattern="dd/MM/yyyy"/>  
+	    	        </h:outputText>  
+	            </p:column>
+		
+			    </p:dataTable>
+		   </h:panelGroup>
+		   
+           
+
+</html>
